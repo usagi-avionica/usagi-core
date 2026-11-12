@@ -144,13 +144,14 @@ jobs:
 
       - name: Generate gerbers and drill files
         run: |
+          # Loose gerbers go to a scratch folder; only the zip goes in the release
           kicad-cli pcb export gerbers "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/gerber \
+          --output build/gerber \
           --layers F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts
           kicad-cli pcb export drill "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/gerber
+          --output build/gerber
           # Flat zip (no folders inside), as fab upload forms expect
-          zip -j "$OUTPUT_DIR"/gerber-"$REVISION".zip "$OUTPUT_DIR"/gerber/*
+          zip -j "$OUTPUT_DIR"/gerber.zip build/gerber/*
 
       - name: Generate ODB++
         run: |
@@ -181,15 +182,17 @@ jobs:
       - name: Generate images
         run: |
           kicad-cli pcb render "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/render/isometric_top.png \
+          --output "$OUTPUT_DIR"/isometric_top.png \
           --quality high \
+          --use-board-stackup-colors \
           --width $IMAGE_WIDTH \
           --height $IMAGE_HEIGHT \
           --zoom $IMAGE_ZOOM \
           --rotate 315,0,45
           kicad-cli pcb render "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/render/isometric_bottom.png \
+          --output "$OUTPUT_DIR"/isometric_bottom.png \
           --quality high \
+          --use-board-stackup-colors \
           --width $IMAGE_WIDTH \
           --height $IMAGE_HEIGHT \
           --zoom $IMAGE_ZOOM \
@@ -197,11 +200,10 @@ jobs:
 
       - name: Create GitHub release
         run: |
-          zip -r release-"$REVISION".zip "$OUTPUT_DIR"
-          gh release create "$REVISION" \
-          release-"$REVISION".zip \
-          "$OUTPUT_DIR"/gerber-"$REVISION".zip \
-          "$OUTPUT_DIR"/schematic.pdf \
+          # Flat zip: every generated file at the top level, no folders
+          zip -j release.zip "$OUTPUT_DIR"/*
+          unzip -l release.zip
+          gh release create "$REVISION" release.zip \
           --title "$REVISION" \
           --target "$GITHUB_SHA" \
           --generate-notes
