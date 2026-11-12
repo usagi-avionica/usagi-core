@@ -26,7 +26,7 @@ jobs:
       revision: ${{ steps.revision.outputs.revision }}
       skip: ${{ steps.exists.outputs.skip }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Extract revision
         id: revision
@@ -63,7 +63,7 @@ jobs:
     env:
       REVISION: ${{ needs.check.outputs.revision }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -83,6 +83,19 @@ jobs:
           # Montserrat is used on the silkscreen; without it gerbers fall back to another font
           sudo apt install -y fonts-open-sans fonts-montserrat xvfb at-spi2-core
           pip3 install InteractiveHtmlBom
+
+      - name: Check KiCad version and project files
+        run: |
+          kicad-cli version
+          apt-cache policy kicad | head -3
+          for f in "$SCH_FILE" "$PCB_FILE"; do
+            echo "== $f"
+            head -4 "$f"
+            if head -1 "$f" | grep -q "git-lfs"; then
+              echo "ERROR: $f is a Git LFS pointer, not the real file. Enable 'lfs: true' on checkout."
+              exit 1
+            fi
+          done
 
       # Block the release on errors only; warnings (e.g. silkscreen text) are reported but don't fail.
       - name: Run ERC
