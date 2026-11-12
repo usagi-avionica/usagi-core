@@ -21,7 +21,7 @@ env:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # KiCad 10 PPA builds exist for noble; ubuntu-latest fell back to the distro's KiCad 9
     outputs:
       revision: ${{ steps.revision.outputs.revision }}
       skip: ${{ steps.exists.outputs.skip }}
@@ -59,7 +59,7 @@ jobs:
   release:
     needs: check
     if: needs.check.outputs.skip == 'false'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # KiCad 10 PPA builds exist for noble; ubuntu-latest fell back to the distro's KiCad 9
     env:
       REVISION: ${{ needs.check.outputs.revision }}
     steps:
@@ -86,8 +86,12 @@ jobs:
 
       - name: Check KiCad version and project files
         run: |
-          kicad-cli version
+          KICAD_VERSION=$(kicad-cli version)
           apt-cache policy kicad | head -3
+          case "$KICAD_VERSION" in
+            10.*) echo "KiCad $KICAD_VERSION" ;;
+            *) echo "ERROR: expected KiCad 10, got $KICAD_VERSION (PPA package not installed)"; exit 1 ;;
+          esac
           for f in "$SCH_FILE" "$PCB_FILE"; do
             echo "== $f"
             head -4 "$f"
