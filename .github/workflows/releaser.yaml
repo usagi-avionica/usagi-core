@@ -1,0 +1,182 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  IMAGE_WIDTH: 2000
+  IMAGE_HEIGHT: 2000
+  IMAGE_ZOOM: 0.75
+  OUTPUT_DIR: release
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      revision: ${{ steps.revision.outputs.revision }}
+      skip: ${{ steps.exists.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract revision
+        id: revision
+        run: |
+          PROJECT_FILE=$(find . -maxdepth 1 -name "*.kicad_pro" | head -1)
+          REVISION=$(jq -r '.text_variables.REVISION' "$PROJECT_FILE")
+          if [ -z "$REVISION" ] || [ "$REVISION" = "null" ]; then
+            echo "ERROR: REVISION text variable is missing in $PROJECT_FILE"
+            exit 1
+          fi
+          echo "revision=$REVISION" >> "$GITHUB_OUTPUT"
+
+      - name: Skip if this revision is already released
+        id: exists
+        run: |
+          if gh release view "${{ steps.revision.outputs.revision }}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release ${{ steps.revision.outputs.revision }} already exists. Bump REVISION to publish a new one."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  release:
+    needs: check
+    if: needs.check.outputs.skip == 'false'
+    runs-on: ubuntu-latest
+    env:
+      REVISION: ${{ needs.check.outputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Detect project files
+        run: |
+          PROJECT_FILE=$(find . -maxdepth 1 -name "*.kicad_pro" | head -1)
+          BASE="${PROJECT_FILE%.kicad_pro}"
+          echo "PCB_FILE=${BASE}.kicad_pcb" >> "$GITHUB_ENV"
+          echo "SCH_FILE=${BASE}.kicad_sch" >> "$GITHUB_ENV"
+          mkdir -p "$OUTPUT_DIR"
+
+      - name: Install dependencies
+        run: |
+          sudo add-apt-repository --yes ppa:kicad/kicad-10.0-releases
+          sudo apt update
+          sudo apt install kicad -y --no-install-recommends
+          sudo apt install -y fonts-open-sans xvfb at-spi2-core
+          pip3 install InteractiveHtmlBom
+
+      # Block the release on errors only; warnings (e.g. silkscreen text) are reported but don't fail.
+      - name: Run ERC
+        run: |
+          kicad-cli sch erc "$SCH_FILE" \
+          --severity-error \
+          --exit-code-violations \
+          --output "$OUTPUT_DIR"/erc.rpt
+
+      - name: Run DRC
+        run: |
+          kicad-cli pcb drc "$PCB_FILE" \
+          --severity-error \
+          --schematic-parity \
+          --exit-code-violations \
+          --output "$OUTPUT_DIR"/drc.rpt
+
+      - name: Generate schematic PDF
+        run: |
+          kicad-cli sch export pdf "$SCH_FILE" \
+          --black-and-white \
+          --output "$OUTPUT_DIR"/schematic.pdf
+
+      - name: Generate PCB PDF
+        run: |
+          kicad-cli pcb export pdf "$PCB_FILE" \
+          --output "$OUTPUT_DIR/pcb.pdf" \
+          --mode-multipage \
+          --include-border-title \
+          --sketch-pads-on-fab-layers \
+          --layers F.Fab,B.Fab,F.Cu,In1.Cu,In2.Cu,B.Cu,F.Mask,B.Mask \
+          --common-layers Edge.Cuts,User.Drawings
+
+      - name: Generate BOM
+        run: |
+          kicad-cli sch export bom "$SCH_FILE" \
+          --output "$OUTPUT_DIR"/bom.csv \
+          --fields "Reference,\${QUANTITY},Manufacturer,Manufacturer Part Number" \
+          --labels "Reference,Quantity,Manufacturer,Manufacturer Part Number" \
+          --group-by "Manufacturer Part Number" \
+          --sort-field "Reference"
+
+      - name: Generate gerbers and drill files
+        run: |
+          kicad-cli pcb export gerbers "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/gerber \
+          --layers F.Cu,In1.Cu,In2.Cu,B.Cu,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,F.Mask,B.Mask,Edge.Cuts
+          kicad-cli pcb export drill "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/gerber
+          # Flat zip (no folders inside), as fab upload forms expect
+          zip -j "$OUTPUT_DIR"/gerber-"$REVISION".zip "$OUTPUT_DIR"/gerber/*
+
+      - name: Generate ODB++
+        run: |
+          kicad-cli pcb export odb "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/odb++.zip
+
+      - name: Generate netlist
+        run: |
+          kicad-cli sch export netlist "$SCH_FILE" \
+          --output "$OUTPUT_DIR"/netlist.net
+
+      - name: Generate interactive HTML BOM
+        run: |
+          xvfb-run --auto-servernum \
+          generate_interactive_bom "$PCB_FILE" \
+          --extra-data-file "$OUTPUT_DIR"/netlist.net \
+          --show-fields "Manufacturer,Manufacturer Part Number" \
+          --group-fields "Manufacturer Part Number" \
+          --dark-mode \
+          --highlight-pin1 all \
+          --include-tracks \
+          --include-nets \
+          --show-fabrication \
+          --checkboxes Placed \
+          --no-browser \
+          --dest-dir "$OUTPUT_DIR"
+
+      - name: Generate images
+        run: |
+          kicad-cli pcb render "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/render/isometric_top.png \
+          --quality high \
+          --width $IMAGE_WIDTH \
+          --height $IMAGE_HEIGHT \
+          --zoom $IMAGE_ZOOM \
+          --rotate 315,0,45
+          kicad-cli pcb render "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/render/isometric_bottom.png \
+          --quality high \
+          --width $IMAGE_WIDTH \
+          --height $IMAGE_HEIGHT \
+          --zoom $IMAGE_ZOOM \
+          --rotate 315,180,135
+
+      - name: Create GitHub release
+        run: |
+          zip -r release-"$REVISION".zip "$OUTPUT_DIR"
+          gh release create "$REVISION" \
+          release-"$REVISION".zip \
+          "$OUTPUT_DIR"/gerber-"$REVISION".zip \
+          "$OUTPUT_DIR"/schematic.pdf \
+          --title "$REVISION" \
+          --target "$GITHUB_SHA" \
+          --generate-notes
