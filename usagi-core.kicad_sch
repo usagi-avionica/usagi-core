@@ -4,6 +4,11 @@
 	(generator_version "10.0")
 	(uuid "c5a351f9-c9b2-496a-891c-8f2a6c4c8e67")
 	(paper "A4")
+	(title_block
+		(title "Usagi Core")
+		(date "12/11/2026")
+		(rev "A")
+	)
 	(lib_symbols
 		(symbol "discrete_diode:STPS140ZY"
 			(pin_numbers

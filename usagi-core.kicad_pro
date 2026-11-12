@@ -293,7 +293,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": ""
+      "sch_revision": "A"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -761,8 +761,7 @@
     "LICENSE": "CERN-OHL-S",
     "ORGANIZATION": "Usagi Avionica",
     "REVIEWER": "Gianluca Gaiardi",
-    "Revision": "A",
-    "URL": ""
+    "URL": "https://github.com/usagi-avionica/usagi-core.git"
   },
   "tuning_profiles": {
     "meta": {
