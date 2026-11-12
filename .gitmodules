@@ -1,0 +1,3 @@
+[submodule "library"]
+	path = library
+	url = git@github.com:usagi-avionica/kicad-library.git
