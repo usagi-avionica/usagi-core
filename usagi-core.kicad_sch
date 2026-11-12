@@ -43318,7 +43318,7 @@
 			(page "1")
 		)
 	)
-	(embedded_fonts no)
+	(embedded_fonts yes)
 	(embedded_files
 		(file
 			(name "A4.kicad_wks")
