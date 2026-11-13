@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  IMAGE_WIDTH: 2000
-  IMAGE_HEIGHT: 2000
+  IMAGE_WIDTH: 3000
+  IMAGE_HEIGHT: 3000
   IMAGE_ZOOM: 0.75
   OUTPUT_DIR: release
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -204,6 +204,6 @@ jobs:
           zip -j release.zip "$OUTPUT_DIR"/*
           unzip -l release.zip
           gh release create "$REVISION" release.zip \
-          --title "$REVISION" \
+          --title "Revision $REVISION" \
           --target "$GITHUB_SHA" \
           --generate-notes
