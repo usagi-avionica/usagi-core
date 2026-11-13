@@ -49,7 +49,7 @@ jobs:
       - name: Skip if this revision is already released
         id: exists
         run: |
-          if gh release view "${{ steps.revision.outputs.revision }}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+          if gh release view "Revision-${{ steps.revision.outputs.revision }}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             echo "Release ${{ steps.revision.outputs.revision }} already exists. Bump REVISION to publish a new one."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
@@ -179,10 +179,11 @@ jobs:
           --no-browser \
           --dest-dir "$OUTPUT_DIR"
 
+      # Renders are uploaded as separate release assets (not in the zip) so the README can link to them
       - name: Generate images
         run: |
           kicad-cli pcb render "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/isometric_top.png \
+          --output build/render/isometric_top.png \
           --quality high \
           --use-board-stackup-colors \
           --width $IMAGE_WIDTH \
@@ -190,7 +191,7 @@ jobs:
           --zoom $IMAGE_ZOOM \
           --rotate 315,0,45
           kicad-cli pcb render "$PCB_FILE" \
-          --output "$OUTPUT_DIR"/isometric_bottom.png \
+          --output build/render/isometric_bottom.png \
           --quality high \
           --use-board-stackup-colors \
           --width $IMAGE_WIDTH \
@@ -203,7 +204,10 @@ jobs:
           # Flat zip: every generated file at the top level, no folders
           zip -j release.zip "$OUTPUT_DIR"/*
           unzip -l release.zip
-          gh release create "$REVISION" release.zip \
+          # Tag: Revision-X (git tags can't contain spaces). Title: Revision X
+          gh release create "Revision-$REVISION" release.zip \
+          build/render/isometric_top.png \
+          build/render/isometric_bottom.png \
           --title "Revision $REVISION" \
           --target "$GITHUB_SHA" \
           --generate-notes
