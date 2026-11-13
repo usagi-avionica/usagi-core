@@ -10,6 +10,282 @@
 		(rev "A")
 	)
 	(lib_symbols
+		(symbol "discrete_diode:SML-D12P8WT86C"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "${COLOR}"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "discrete_diode:SML-D12P8WT86C"
+				(at 0 -5.08 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "${KIPRJMOD}/library/datasheet/SML-D12P8WT86C.pdf"
+				(at 0 -7.62 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Diode LED ${COLOR} V_{F} ${FORWARD VOLTAGE} I_{F} ${FORWARD CURRENT} V_{R} ${REVERSE VOLTAGE} ${MINIMUM TEMPERATURE} ${MAXIMUM TEMPERATURE} ${PACKAGE} ${RATINGS}"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "Rohm Semiconductor"
+				(at 0 -10.16 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer Part Number" "SML-D12P8WT86C"
+				(at 0 -12.7 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Forward Current" "20mA"
+				(at 0 -15.24 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Reverse Voltage" "5V"
+				(at 0 -17.78 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Forward Voltage" "2.2V"
+				(at 0 -20.32 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Color" "Green"
+				(at 0 -22.86 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Minimum Temperature" "-40°C"
+				(at 0 -25.4 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Maximum Temperature" "+100°C"
+				(at 0 -27.94 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Package" "0603"
+				(at 0 -30.48 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Ratings" "AEC-Q102"
+				(at 0 -33.02 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Mass" "0.0013g"
+				(at 0 -35.56 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SML-D12P8WT86C_0_1"
+				(polyline
+					(pts
+						(xy -0.635 -0.762) (xy -0.635 0.762) (xy 0.635 0) (xy -0.635 -0.762)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.635 0.762) (xy 0.635 -0.762)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SML-D12P8WT86C_1_1"
+				(polyline
+					(pts
+						(xy -0.254 0.762) (xy 0 1.016) (xy 0 0.889) (xy -0.127 1.016) (xy 0 1.016)
+					)
+					(stroke
+						(width 0.0762)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0.635) (xy 0.254 0.889) (xy 0.254 0.762) (xy 0.127 0.889) (xy 0.254 0.889)
+					)
+					(stroke
+						(width 0.0762)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 2.54 0 180)
+					(length 1.905)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 1.905)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "discrete_diode:STPS140ZY"
 			(pin_numbers
 				(hide yes)
@@ -7842,7 +8118,7 @@
 					)
 				)
 			)
-			(property "Manufacturer Part Number" " C0603C472F5GACAUTO"
+			(property "Manufacturer Part Number" "C0603C472F5GACAUTO"
 				(at 0 -19.05 0)
 				(show_name yes)
 				(do_not_autoplace no)
@@ -9684,282 +9960,6 @@
 				(pin passive line
 					(at 0 -2.54 90)
 					(length 2.032)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "passive_diode:SML-D12P8WT86C"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "D"
-				(at 0 5.08 0)
-				(show_name no)
-				(do_not_autoplace yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "${COLOR}"
-				(at 0 2.54 0)
-				(show_name no)
-				(do_not_autoplace yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "passive_diode:SML-D12P8WT86C"
-				(at 0 -5.08 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "${KIPRJMOD}/library/datasheet/SML-D12P8WT86C.pdf"
-				(at 0 -7.62 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Diode LED ${COLOR} V_{F} ${FORWARD VOLTAGE} I_{F} ${FORWARD CURRENT} V_{R} ${REVERSE VOLTAGE} ${MINIMUM TEMPERATURE} ${MAXIMUM TEMPERATURE} ${PACKAGE} ${RATINGS}"
-				(at 0 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer" "Rohm Semiconductor"
-				(at 0 -10.16 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Manufacturer Part Number" "SML-D12P8WT86C"
-				(at 0 -12.7 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Forward Current" "20mA"
-				(at 0 -15.24 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Reverse Voltage" "5V"
-				(at 0 -17.78 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Forward Voltage" "2.2V"
-				(at 0 -20.32 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Color" "Green"
-				(at 0 -22.86 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Minimum Temperature" "-40°C"
-				(at 0 -25.4 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Maximum Temperature" "+100°C"
-				(at 0 -27.94 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Package" "0603"
-				(at 0 -30.48 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Ratings" "AEC-Q102"
-				(at 0 -33.02 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Mass" "0.0013g"
-				(at 0 -35.56 0)
-				(show_name yes)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "SML-D12P8WT86C_0_1"
-				(polyline
-					(pts
-						(xy -0.635 -0.762) (xy -0.635 0.762) (xy 0.635 0) (xy -0.635 -0.762)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 0.762) (xy 0.635 -0.762)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "SML-D12P8WT86C_1_1"
-				(polyline
-					(pts
-						(xy -0.254 0.762) (xy 0 1.016) (xy 0 0.889) (xy -0.127 1.016) (xy 0 1.016)
-					)
-					(stroke
-						(width 0.0762)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0.635) (xy 0.254 0.889) (xy 0.254 0.762) (xy 0.127 0.889) (xy 0.254 0.889)
-					)
-					(stroke
-						(width 0.0762)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 2.54 0 180)
-					(length 1.905)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -2.54 0 0)
-					(length 1.905)
 					(name ""
 						(effects
 							(font
@@ -12060,7 +12060,7 @@
 					)
 				)
 			)
-			(property "Manufacturer Part Number" " CRCW060360R4FKEAHP"
+			(property "Manufacturer Part Number" "CRCW060360R4FKEAHP"
 				(at 0 -19.05 0)
 				(show_name yes)
 				(do_not_autoplace no)
@@ -20548,7 +20548,7 @@
 		)
 	)
 	(symbol
-		(lib_id "passive_diode:SML-D12P8WT86C")
+		(lib_id "discrete_diode:SML-D12P8WT86C")
 		(at 50.8 72.39 0)
 		(unit 1)
 		(body_style 1)
@@ -27156,7 +27156,7 @@
 		)
 	)
 	(symbol
-		(lib_id "passive_diode:SML-D12P8WT86C")
+		(lib_id "discrete_diode:SML-D12P8WT86C")
 		(at 207.01 134.62 270)
 		(unit 1)
 		(body_style 1)
@@ -32149,7 +32149,7 @@
 		)
 	)
 	(symbol
-		(lib_id "passive_diode:SML-D12P8WT86C")
+		(lib_id "discrete_diode:SML-D12P8WT86C")
 		(at 259.08 154.94 270)
 		(unit 1)
 		(body_style 1)
@@ -38546,7 +38546,7 @@
 		)
 	)
 	(symbol
-		(lib_id "passive_diode:SML-D12P8WT86C")
+		(lib_id "discrete_diode:SML-D12P8WT86C")
 		(at 207.01 158.75 270)
 		(unit 1)
 		(body_style 1)
