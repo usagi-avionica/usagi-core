@@ -142,6 +142,15 @@ jobs:
           --group-by "Manufacturer Part Number" \
           --sort-field "Reference"
 
+      - name: Generate centroid
+        run: |
+          kicad-cli pcb export pos "$PCB_FILE" \
+          --output "$OUTPUT_DIR"/centroid.csv \
+          --format csv \
+          --units mm \
+          --side both \
+          --exclude-dnp
+
       - name: Generate gerbers and drill files
         run: |
           # Loose gerbers go to a scratch folder; only the zip goes in the release
